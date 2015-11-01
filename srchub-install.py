@@ -236,11 +236,11 @@ def install_packages():
         packages = ["git", "mercurial", "subversion", "mariadb-server", "mariadb-client", "libapache2-mod-php5",
                         "php5-curl", "php5-mysql", "php5-cli", "git-daemon-run", "gitweb", "php-pear", "patch"]
         percent = 0
-        i = 0
+        i = 0.0
         for package in packages:
             d.gauge_update(percent, "Installing " + package, update_text=True)
             install_package(package)
-            i += 1
+            i += 1.0
             percent = (i / len(packages)) * 100
         d.gauge_stop()
 
