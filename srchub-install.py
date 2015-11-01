@@ -241,7 +241,7 @@ def install_packages():
             d.gauge_update(percent, "Installing " + package, update_text=True)
             install_package(package)
             i += 1.0
-            percent = (i / len(packages)) * 100
+            percent = int((i / len(packages)) * 100)
         d.gauge_stop()
 
 
