@@ -221,7 +221,7 @@ def final_msg():
 
 def install_package(package):
     if distro == "Debian":
-        call(["apt-get", "--assume-yes", "-y", "install", package])
+        call(["apt-get", "--assume-yes", "-y", "install", package, ">", "/dev/null"])
 
 def install_packages():
     code = d.yesno("Do you want me to attempt to install the needed packages?")
