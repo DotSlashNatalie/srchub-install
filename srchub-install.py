@@ -166,7 +166,7 @@ def install_cron_jobs():
         with open('/tmp/cron', 'w') as content_file:
             content_file.write(CRON_JOB_SCRIPT)
         call("crontab -u www-data /tmp/cron".split(" "))
-        call(["rm /tmp/cron"])
+        call(["rm", "/tmp/cron"])
 
 def update_mercurial_hooks():
     hgconf = ""
