@@ -218,7 +218,6 @@ def prep_apache():
         content_file.write(INDEFERO_SVN_APACHE)
 
 def final_msg():
-    os.chdir("/home/www/indefero/src")
     call("mv /home/www/indefero/src/IDF/conf/path.php-dist /home/www/indefero/src/IDF/conf/path.php".split(" "))
     call("mv /home/www/indefero/src/IDF/conf/idf.php-dist /home/www/indefero/src/IDF/conf/idf.php".split(" "))
     d.msgbox(FINAL_MSG)
