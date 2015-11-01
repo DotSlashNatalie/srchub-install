@@ -224,7 +224,10 @@ def final_msg():
 def install_package(package):
     FNULL = open(os.devnull, 'w')
     if distro == "Debian":
-        call(["apt-get", "--assume-yes", "-y", "install", package], stderr=subprocess.STDOUT, stdout=FNULL)
+        if package == "mariadb-server":
+            call(["apt-get", "--assume-yes", "-y", "install", package])
+        else:
+            call(["apt-get", "--assume-yes", "-y", "install", package], stderr=subprocess.STDOUT, stdout=FNULL)
 
 def install_packages():
     code = d.yesno("Do you want me to attempt to install the needed packages?")
