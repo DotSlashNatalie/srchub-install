@@ -156,6 +156,7 @@ CRON_JOB_SCRIPT = """
 
 d = Dialog(dialog="dialog", autowidgetsize=True)
 distro = ""
+FNULL = open(os.devnull, 'w')
 
 def exit_msg():
     print "Thank you for using the srchub installer\n"
@@ -189,17 +190,17 @@ def setup_git_daemon():
     call(["adduser", "git"])
 
 def setup_web_links():
-    code, user_input = d.inputbox("I need to setup some web links. Where is your web root? (no leading slash)", init="/var/www")
+    code, user_input = d.inputbox("I need to setup some web links. Where is your web root? (no leading slash)", init="/var/www/html")
     call(["ln", "-s", "/home/www/indefero/www/index.php", "%s/index.php" % user_input])
     call(["ln", "-s", "/home/www/indefero/www/media", "%s/media" % user_input])
     with open("%s/.htaccess" % user_input, 'w') as content_file:
         content_file.write(HTACCESS)
 
 def install_pear_modules():
-    call(["pear", "install", "File_Passwd"])
-    call(["pear", "upgrade-all"])
-    call(["pear", "install", "--alldeps", "Mail"])
-    call(["pear", "install", "--alldeps", "Mail_mime"])
+    call(["pear", "install", "File_Passwd"], stderr=subprocess.STDOUT, stdout=FNULL)
+    call(["pear", "upgrade-all"], stderr=subprocess.STDOUT, stdout=FNULL)
+    call(["pear", "install", "--alldeps", "Mail"], stderr=subprocess.STDOUT, stdout=FNULL)
+    call(["pear", "install", "--alldeps", "Mail_mime"], stderr=subprocess.STDOUT, stdout=FNULL)
 
 def fix_auth_basic():
     with open('/tmp/patch', 'w') as content_file:
@@ -223,7 +224,6 @@ def final_msg():
     d.msgbox(FINAL_MSG)
 
 def install_package(package):
-    FNULL = open(os.devnull, 'w')
     if distro == "Debian":
         if package == "mariadb-server":
             call(["apt-get", "--assume-yes", "-y", "install", package])
