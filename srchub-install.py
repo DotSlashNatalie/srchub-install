@@ -5,6 +5,8 @@ import sys
 import os
 
 # This is almost always a good thing to do at the beginning of your programs.
+import subprocess
+
 locale.setlocale(locale.LC_ALL, '')
 
 """
@@ -220,9 +222,9 @@ def final_msg():
     d.msgbox(FINAL_MSG)
 
 def install_package(package):
-    f = ""
+    FNULL = open(os.devnull, 'w')
     if distro == "Debian":
-        call(["apt-get", "--assume-yes", "-y", "install", package], shell=True, stdout=f)
+        call(["apt-get", "--assume-yes", "-y", "install", package], stderr=subprocess.STDOUT, stdout=FNULL)
 
 def install_packages():
     code = d.yesno("Do you want me to attempt to install the needed packages?")
