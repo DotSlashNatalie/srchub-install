@@ -145,6 +145,13 @@ AUTHBASIC_PATCH = """
 
 """
 
+CRON_JOB_SCRIPT = """
+*/5 * * * * /bin/sh /home/www/indefero/scripts/SyncMercurial.sh
+15 * * * * /usr/bin/php5 /home/www/indefero/scripts/calculateforgecron.php
+0 1 * * * /usr/bin/php5 /home/www/indefero/scripts/activitycron.php
+*/5 * * * * /usr/bin/php5 /home/www/indefero/scripts/queuecron.php
+"""
+
 d = Dialog(dialog="dialog", autowidgetsize=True)
 distro = ""
 
@@ -156,13 +163,10 @@ def install_cron_jobs():
     answer = d.yesno("Do you want me to attempt to install the cron jobs?")
     if answer == d.DIALOG_OK:
         d.infobox("Setting up cron jobs...")
-        commands = []
-        commands.append("0 1 * * * %s" % ("/usr/bin/php5 /home/www/indefero/scripts/activitycron.php"))
-        commands.append("*/5 * * * *  %s" % ("/bin/sh /home/www/indefero/scripts/SyncMercurial.sh"))
-        commands.append("15 * * * * /usr/bin/php5 /home/www/indefero/scripts/calculateforgecron.php")
-        commands.append("*/5 * * * * /usr/bin/php5 /home/www/indefero/scripts/queuecron.php")
-        for command in commands:
-            call(["(crontab -l; echo '%s') | crontab" % command])
+        with open('/tmp/cron', 'w') as content_file:
+            content_file.write(CRON_JOB_SCRIPT)
+        call("crontab -u www-data /tmp/cron".split(" "))
+        call(["rm /tmp/cron"])
 
 def update_mercurial_hooks():
     hgconf = ""
