@@ -233,6 +233,8 @@ def install_packages():
     code = d.yesno("Do you want me to attempt to install the needed packages?")
     if code == d.OK:
         d.gauge_start("Installing...")
+        call(["apt-get", "update"])
+        call(["apt-get", "upgrade"])
         packages = ["git", "mercurial", "subversion", "mariadb-client", "libapache2-mod-php5",
                         "php5-curl", "php5-mysql", "php5-cli", "git-daemon-run", "gitweb", "php-pear", "patch", "mariadb-server"]
         percent = 0
