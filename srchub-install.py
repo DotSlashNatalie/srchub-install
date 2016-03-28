@@ -184,7 +184,7 @@ def fix_auth_basic():
     with open('/tmp/Authbasic.patch', 'w') as content_file:
         content_file.write(AUTHBASIC_PATCH)
     call(["patch", "-i", "/tmp/Authbasic.patch", "-F", "3", "-N", "/usr/share/php/File/Passwd/Authbasic.php"])
-    call(["rm /tmp/Authbasic.patch"])
+    call(["rm", "/tmp/Authbasic.patch"])
 
 def prep_apache():
     call(["a2enmod", "rewrite"])
