@@ -3,10 +3,9 @@ from dialog import Dialog
 from subprocess import call
 import sys
 import os
-
-# This is almost always a good thing to do at the beginning of your programs.
 import subprocess
 
+# This is almost always a good thing to do at the beginning of your programs.
 locale.setlocale(locale.LC_ALL, '')
 
 """
