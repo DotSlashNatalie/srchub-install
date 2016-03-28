@@ -253,6 +253,7 @@ if code == d.OK:
     install_packages()
     if tag == "1":  # Install srchub
         call(["git", "clone", "git://srchub.org/srchub-git.git", "/home/www"])
+        call(["chown", "www-data:www-data", "-R", "/home/www"])
 
         install_cron_jobs()
         update_mercurial_hooks()
@@ -266,6 +267,7 @@ if code == d.OK:
     else:  # Install indefero vanilla
         call(["git", "clone", "git://srchub.org/indefero.git", "/home/www/indefero"])
         call(["git", "clone", "git://srchub.org/pluf2.git", "/home/www/pluf"])
+        call(["chown", "www-data:www-data", "-R", "/home/www"])
 
         install_cron_jobs()
         update_mercurial_hooks()
