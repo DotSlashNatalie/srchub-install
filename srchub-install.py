@@ -203,7 +203,7 @@ def install_pear_modules():
     call(["pear", "install", "--alldeps", "Mail_mime"], stderr=subprocess.STDOUT, stdout=FNULL)
 
 def fix_auth_basic():
-    with open('/tmp/patch', 'w') as content_file:
+    with open('/tmp/Authbasic.patch', 'w') as content_file:
         content_file.write(AUTHBASIC_PATCH)
     call(["patch", "-N", "/usr/share/php/File/Passwd/Authbasic.php", "<", "/tmp/Authbasic.patch"])
     call(["rm /tmp/patch"])
@@ -233,7 +233,6 @@ def install_packages():
     code = d.yesno("Do you want me to attempt to install the needed packages?")
     if code == d.OK:
         d.gauge_start("Installing...")
-        call(["apt-get", "update"])
         call(["apt-get", "upgrade"])
         packages = ["git", "mercurial", "subversion", "mariadb-client", "libapache2-mod-php5",
                         "php5-curl", "php5-mysql", "php5-cli", "git-daemon-run", "gitweb", "php-pear", "patch", "mariadb-server"]
