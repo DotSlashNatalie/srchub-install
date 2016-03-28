@@ -97,24 +97,6 @@ to create the admin user (username: admin, password: admin)
 AUTHBASIC_PATCH = """
 --- Authbasic.php       2013-07-23 22:33:50.000000000 -0500
 +++ /usr/share/php/File/Passwd/Authbasic.php    2013-06-03 19:07:37.000000000 -0500
-@@ -17,7 +17,7 @@
-  * @author     Michael Wallner <mike@php.net>
-  * @copyright  2003-2005 Michael Wallner
-  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-- * @version    CVS: $Id$
-+ * @version    CVS: $Id: Authbasic.php,v 1.17 2005/03/30 18:33:33 mike Exp $
-  * @link       http://pear.php.net/package/File_Passwd
-  */
-
-@@ -52,7 +52,7 @@
- *
- * @author   Michael Wallner <mike@php.net>
- * @package  File_Passwd
--* @version  $Revision$
-+* @version  $Revision: 1.17 $
- * @access   public
- */
- class File_Passwd_Authbasic extends File_Passwd_Common
 @@ -79,7 +79,7 @@
      * @var array
      * @access private
@@ -133,18 +115,15 @@ AUTHBASIC_PATCH = """
                  FILE_PASSWD_E_INVALID_ENC_MODE
              );
          }
-@@ -326,7 +326,9 @@
+@@ -326,6 +326,8 @@
              return File_Passwd::crypt_des($pass, $salt);
          } elseif ($mode == 'sha') {
              return File_Passwd::crypt_sha($pass, $salt);
--        }
-+        } elseif ($mode == 'plain') {
-+               return $pass;
-+       }
++        } else if ($mode == 'plain') {
++            return $pass;
+         }
 
          return PEAR::raiseError(
-             sprintf(FILE_PASSWD_E_INVALID_ENC_MODE_STR, $mode),
-
 """
 
 CRON_JOB_SCRIPT = """
@@ -205,8 +184,8 @@ def install_pear_modules():
 def fix_auth_basic():
     with open('/tmp/Authbasic.patch', 'w') as content_file:
         content_file.write(AUTHBASIC_PATCH)
-    call(["patch", "-N", "/usr/share/php/File/Passwd/Authbasic.php", "<", "/tmp/Authbasic.patch"])
-    call(["rm /tmp/patch"])
+    call(["patch", "-i", "/tmp/Authbasic.patch", "-F", "3", "-N", "/usr/share/php/File/Passwd/Authbasic.php"])
+    call(["rm /tmp/Authbasic.patch"])
 
 def prep_apache():
     call(["a2enmod", "rewrite"])
