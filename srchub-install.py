@@ -196,8 +196,8 @@ def prep_apache():
         content_file.write(INDEFERO_SVN_APACHE)
 
 def final_msg():
-    call("mv /home/www/indefero/src/IDF/conf/path.php-dist /home/www/indefero/src/IDF/conf/path.php".split(" "))
-    call("mv /home/www/indefero/src/IDF/conf/idf.php-dist /home/www/indefero/src/IDF/conf/idf.php".split(" "))
+    call("cp /home/www/indefero/src/IDF/conf/path.php-dist /home/www/indefero/src/IDF/conf/path.php".split(" "))
+    call("cp /home/www/indefero/src/IDF/conf/idf.php-dist /home/www/indefero/src/IDF/conf/idf.php".split(" "))
     d.msgbox(FINAL_MSG)
 
 def install_package(package):
@@ -213,7 +213,8 @@ def install_packages():
         d.gauge_start("Installing...")
         call(["apt-get", "upgrade"])
         packages = ["git", "mercurial", "subversion", "mariadb-client", "libapache2-mod-php5",
-                        "php5-curl", "php5-mysql", "php5-cli", "git-daemon-run", "gitweb", "php-pear", "patch", "mariadb-server"]
+                        "php5-curl", "php5-mysql", "php5-cli", "git-daemon-run", "gitweb", "php-pear", "patch", "mariadb-server",
+                    "libapache2-mod-svn"]
         percent = 0
         i = 0.0
         for package in packages:
